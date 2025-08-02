@@ -1,19 +1,32 @@
 #!/bin/bash
 
 if [ "$DEVPOD" = "true" ]; then
-  git config --global push.autoSetupRemote true
-  git config --global --add safe.directory /workspaces/devops-pipeline-project/
+  # 1. Ensure critical directories exist
+  mkdir -p ~/.local/bin
+  mkdir -p .git/hooks
 
-  # Ensure pipx and commitizen are properly installed
-  python -m pip install --user pipx
-  python -m pipx ensurepath
-  pipx install commitizen==3.13.0
-
-  # Update PATH for current session
+  # 2. Update PATH for current session and future shells
   export PATH="$HOME/.local/bin:$PATH"
+  echo 'export PATH="$HOME/.local/bin:$PATH"' >>~/.bashrc
 
-  # Install hooks
-  pre-commit install --force
-  pre-commit install --hook-type commit-msg --force
+  # 3. Install commitizen properly
+  pip install --user -U pipx
+  pipx install --force commitizen==3.13.0
+
+  # 4. Temporarily unset hooksPath for installation
+  git config --global --unset-all core.hooksPath || true
+
+  # 5. Install hooks (without --force)
+  python -m pip install --user pre-commit
+  pre-commit install
+  pre-commit install --hook-type commit-msg
   pre-commit autoupdate
+
+  # 6. Now set hooksPath (after installation)
+  git config --global core.hooksPath .git/hooks
+
+  # 7. Verify installation
+  echo "Verifying hook installation:"
+  ls -la .git/hooks/
+  cz version
 fi
