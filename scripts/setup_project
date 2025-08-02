@@ -1,10 +1,19 @@
 #!/bin/bash
 
-if ! command -v cz >/dev/null && [ "$DEVPOD" = "true" ]; then
+if [ "$DEVPOD" = "true" ]; then
   git config --global push.autoSetupRemote true
   git config --global --add safe.directory /workspaces/devops-pipeline-project/
-  pip install --user pipx
-  pipx install commitizen
-  pre-commit install
-  pre-commit install --hook-type commit-msg
+
+  # Ensure pipx and commitizen are properly installed
+  python -m pip install --user pipx
+  python -m pipx ensurepath
+  pipx install commitizen==3.13.0
+
+  # Update PATH for current session
+  export PATH="$HOME/.local/bin:$PATH"
+
+  # Install hooks
+  pre-commit install --force
+  pre-commit install --hook-type commit-msg --force
+  pre-commit autoupdate
 fi
