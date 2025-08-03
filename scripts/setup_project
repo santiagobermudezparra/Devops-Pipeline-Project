@@ -1,32 +1,43 @@
 #!/bin/bash
 
 if [ "$DEVPOD" = "true" ]; then
-  # 1. Ensure critical directories exist
+  # Only create directories if they don't exist
   mkdir -p ~/.local/bin
   mkdir -p .git/hooks
 
-  # 2. Update PATH for current session and future shells
-  export PATH="$HOME/.local/bin:$PATH"
-  echo 'export PATH="$HOME/.local/bin:$PATH"' >>~/.bashrc
+  # Update PATH if not already present
+  if [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
+    export PATH="$HOME/.local/bin:$PATH"
+    echo 'export PATH="$HOME/.local/bin:$PATH"' >>~/.bashrc
+  fi
 
-  # 3. Install commitizen properly
-  pip install --user -U pipx
-  pipx install --force commitizen==3.13.0
+  # Check before installing pipx
+  if ! command -v pipx >/dev/null; then
+    pip install --user -U pipx
+  fi
 
-  # 4. Temporarily unset hooksPath for installation
-  git config --global --unset-all core.hooksPath || true
+  # Check before installing commitizen
+  if ! command -v cz >/dev/null || [ "$(cz version)" != "3.13.0" ]; then
+    pipx install --force commitizen==3.13.0
+  fi
 
-  # 5. Install hooks (without --force)
-  python -m pip install --user pre-commit
-  pre-commit install
-  pre-commit install --hook-type commit-msg
-  pre-commit autoupdate
+  # Only modify git config if needed
+  if ! git config --global --get core.hooksPath >/dev/null; then
+    git config --global --unset-all core.hooksPath || true
+  fi
 
-  # 6. Now set hooksPath (after installation)
+  # Check pre-commit installation
+  if ! command -v pre-commit >/dev/null; then
+    python -m pip install --user pre-commit
+  fi
+
+  # Install hooks only if they don't exist
+  if [ ! -f .git/hooks/pre-commit ]; then
+    pre-commit install
+    pre-commit install --hook-type commit-msg
+    pre-commit autoupdate
+  fi
+
+  # Set hooksPath only after hooks are installed
   git config --global core.hooksPath .git/hooks
-
-  # 7. Verify installation
-  echo "Verifying hook installation:"
-  ls -la .git/hooks/
-  cz version
 fi
