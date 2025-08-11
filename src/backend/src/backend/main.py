@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
-import logging
+ import logging
 from typing import List, Optional
 
 from .models import StudySession, StudySessionCreate, Stats
