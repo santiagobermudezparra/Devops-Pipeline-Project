@@ -5,6 +5,9 @@ if [ "$DEVPOD" = "true" ]; then
   mkdir -p ~/.local/bin
   mkdir -p .git/hooks
 
+  git config --global push.autoSetupRemote true
+  git config --global --add safe.directory "$(pwd)"
+
   # Update PATH if not already present
   if [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
     export PATH="$HOME/.local/bin:$PATH"
