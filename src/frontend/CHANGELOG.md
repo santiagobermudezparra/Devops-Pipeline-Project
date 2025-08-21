@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/santiagobermudezparra/Devops-Pipeline-Project/compare/frontend-web-v0.1.0...frontend-web-v0.2.0) (2025-08-21)
+
+
+### Features
+
+* **frontend-and-backend-UV:** Uv dependencies ([fa79425](https://github.com/santiagobermudezparra/Devops-Pipeline-Project/commit/fa7942558da9dac1af52d8ae3fb2f17d0c98123c))
+
 ## 0.1.0 (2025-05-05)
 
 
