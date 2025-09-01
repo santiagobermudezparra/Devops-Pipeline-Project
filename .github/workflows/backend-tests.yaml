@@ -92,6 +92,9 @@ jobs:
 
   e2e-test-call:
     name: Run E2E Tests
+    runs-on: ubuntu-latest
     needs: test
     if: success()
-    uses: ./.github/template/e2e-tests.yaml
+    steps:
+      - name: Call E2E Tests
+        uses: ./.github/workflows/e2e-tests.yaml
