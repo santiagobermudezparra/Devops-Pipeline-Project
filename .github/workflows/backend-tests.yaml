@@ -97,5 +97,4 @@ jobs:
     if: success()
     steps:
       - name: Call E2E Tests
-        uses: ./.github/workflows/template/e2e-tests.yaml
-
+        uses: ./.github/template/e2e-tests.yaml
