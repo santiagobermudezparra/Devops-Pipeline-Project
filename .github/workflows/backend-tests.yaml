@@ -90,11 +90,8 @@ jobs:
           vuln-type: "os,library"
           severity: "CRITICAL,HIGH"
 
-  e2e-test-call:
-    name: Run E2E Tests
-    runs-on: ubuntu-latest
+  trigger_e2e:
+    name: Trigger E2E Tests
     needs: test
     if: success()
-    steps:
-      - name: Call E2E Tests
-        uses: ./.github/workflows/e2e-tests.yaml
+    uses: ./.github/workflows/e2e-tests.yaml
