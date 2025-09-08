@@ -14,6 +14,7 @@ logger = logging.getLogger(__name__)
 # Create Flask application
 app = Flask(__name__)
 
+#
 # Configuration
 app.config["API_URL"] = os.getenv("API_URL", "http://localhost:22112")
 app.config["API_TIMEOUT"] = int(os.getenv("API_TIMEOUT", "5"))
