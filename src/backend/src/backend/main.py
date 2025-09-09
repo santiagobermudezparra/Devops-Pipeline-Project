@@ -38,6 +38,9 @@ app.add_middleware(
 )
 
 
+#
+
+
 @app.get("/")
 async def root():
     """Root endpoint returning API information"""
