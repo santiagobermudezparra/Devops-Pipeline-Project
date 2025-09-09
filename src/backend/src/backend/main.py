@@ -16,6 +16,7 @@ from .config import (
     CORS_ALLOW_HEADERS,
 )
 
+
 # Configure logging
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
