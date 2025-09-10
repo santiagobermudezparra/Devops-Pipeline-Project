@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0](https://github.com/santiagobermudezparra/Devops-Pipeline-Project/compare/backend-v0.4.0...backend-v0.5.0) (2025-09-10)
+
+
+### Features
+
+* package build ([654f27f](https://github.com/santiagobermudezparra/Devops-Pipeline-Project/commit/654f27fe2686ae9f86dfa232c2e2b9ec9b4646ce))
+
 ## [0.4.0](https://github.com/santiagobermudezparra/Devops-Pipeline-Project/compare/backend-v0.3.0...backend-v0.4.0) (2025-09-10)
 
 
