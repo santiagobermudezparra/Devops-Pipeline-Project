@@ -1,16 +1,22 @@
-name: Build and Push Packages
+name: Build and Push Docker Images
 
 on:
-  release:
-    types: [published]
-
+  push:
+    tags:
+      - "backend*"
+      - "frontend*"
 env:
   REGISTRY: ghcr.io
+  BACKEND_IMAGE_NAME: ${{ github.repository_owner }}/study-app-api
+  FRONTEND_IMAGE_NAME: ${{ github.repository_owner }}/study-app-web
 
 jobs:
-  build-backend:
-    if: startsWith(github.event.release.tag_name, 'backend-v')
+  build-and-push-backend:
+    name: Build and Push Backend
     runs-on: ubuntu-latest
+    # Only run for backend tags
+    if: contains(github.ref, 'backend')
+
     permissions:
       contents: read
       packages: write
@@ -19,25 +25,35 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Log in to Container registry
+      - name: Log in to the Container registry
         uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push backend image
+      - name: Extract tag name
+        id: tag
+        run: echo "TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Build and push Backend Docker image
         uses: docker/build-push-action@v5
         with:
           context: ./src/backend
           push: true
           tags: |
-            ${{ env.REGISTRY }}/${{ github.repository_owner }}/study-app-api:${{ github.event.release.tag_name }}
-            ${{ env.REGISTRY }}/${{ github.repository_owner }}/study-app-api:latest
+            ${{ env.REGISTRY }}/${{ env.BACKEND_IMAGE_NAME }}:${{ steps.tag.outputs.TAG }}
+            ${{ env.REGISTRY }}/${{ env.BACKEND_IMAGE_NAME }}:latest
+    outputs:
+      tag: ${{ steps.tag.outputs.TAG }}
+      image: ${{ env.REGISTRY }}/${{ env.BACKEND_IMAGE_NAME }}
 
-  build-frontend:
-    if: startsWith(github.event.release.tag_name, 'frontend-v')
+  build-and-push-frontend:
+    name: Build and Push Frontend
     runs-on: ubuntu-latest
+    # Only run for frontend tags
+    if: contains(github.ref, 'frontend')
+
     permissions:
       contents: read
       packages: write
@@ -46,18 +62,25 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Log in to Container registry
+      - name: Log in to the Container registry
         uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push frontend image
+      - name: Extract tag name
+        id: tag
+        run: echo "TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Build and push frontend Docker image
         uses: docker/build-push-action@v5
         with:
           context: ./src/frontend
           push: true
           tags: |
-            ${{ env.REGISTRY }}/${{ github.repository_owner }}/study-app-web:${{ github.event.release.tag_name }}
-            ${{ env.REGISTRY }}/${{ github.repository_owner }}/study-app-web:latest
+            ${{ env.REGISTRY }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ steps.tag.outputs.TAG }}
+            ${{ env.REGISTRY }}/${{ env.FRONTEND_IMAGE_NAME }}:latest
+    outputs:
+      tag: ${{ steps.tag.outputs.TAG }}
+      image: ${{ env.REGISTRY }}/${{ env.FRONTEND_IMAGE_NAME }}
