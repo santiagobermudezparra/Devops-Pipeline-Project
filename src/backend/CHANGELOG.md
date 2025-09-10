@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/santiagobermudezparra/Devops-Pipeline-Project/compare/backend-v0.3.0...backend-v0.4.0) (2025-09-10)
+
+
+### Features
+
+* release change test ([#16](https://github.com/santiagobermudezparra/Devops-Pipeline-Project/issues/16)) ([50d8afd](https://github.com/santiagobermudezparra/Devops-Pipeline-Project/commit/50d8afd554eccfb6b09b6357ab1b41f2dad2ec48))
+
 ## [0.3.0](https://github.com/santiagobermudezparra/Devops-Pipeline-Project/compare/backend-v0.2.1...backend-v0.3.0) (2025-08-21)
 
 
