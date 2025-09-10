@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/santiagobermudezparra/Devops-Pipeline-Project/compare/frontend-web-v0.2.0...frontend-web-v0.3.0) (2025-09-10)
+
+
+### Features
+
+* package build ([654f27f](https://github.com/santiagobermudezparra/Devops-Pipeline-Project/commit/654f27fe2686ae9f86dfa232c2e2b9ec9b4646ce))
+
 ## [0.2.0](https://github.com/santiagobermudezparra/Devops-Pipeline-Project/compare/frontend-web-v0.1.0...frontend-web-v0.2.0) (2025-08-21)
 
 
