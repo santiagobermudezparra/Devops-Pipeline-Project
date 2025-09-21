@@ -53,7 +53,7 @@ jobs:
         with:
           author_name: GitOps Bot
           author_email: mail@example.com
-          cwd: ./devops-study-app-gitops
+          cwd: ./devops-pipeline-project
           message: Update ${{ inputs.image }} deployment with tag "${{ inputs.tag }}"
 
       - name: Update Image Tags Prod
